@@ -26,6 +26,7 @@ let storedValue;
 let valuesArray = [];
 const operators = ["=", "+", "x", "/", "-"];
 let operatorPressed = false;
+let lastOperator;
 /**
  * This function below write the value of the pressed key on the screen
  * The += is the equivalent of:
@@ -53,6 +54,7 @@ document
   .querySelector("#calculator .clear")
   .addEventListener("click", () => (calculatorScreen.innerHTML = ""));
 
+// Logic to operate the + operator and keep making operations if needed
 document.querySelector(".plus").addEventListener("click", () => {
   if (!storedValue) {
     storedValue = Number(valuesArray.join(""));
@@ -60,13 +62,47 @@ document.querySelector(".plus").addEventListener("click", () => {
   } else {
     calculatorScreen.innerHTML = "";
     lastValue = Number(valuesArray.join(""));
-    storedValue += lastValue;
+    switch (lastOperator) {
+      case "+":
+        storedValue += lastValue;
+        break;
+      case "-":
+        storedValue -= lastValue;
+        break;
+    }
+    console.log(lastValue, storedValue);
     print(storedValue);
     lastValue = 0;
     valuesArray = [];
   }
   operatorPressed = true;
+  lastOperator = "+";
 });
+document.querySelector(".minus").addEventListener("click", () => {
+  console.log(lastOperator);
+  if (!storedValue) {
+    storedValue = Number(valuesArray.join(""));
+    valuesArray = [];
+  } else {
+    calculatorScreen.innerHTML = "";
+    lastValue = Number(valuesArray.join(""));
+    switch (lastOperator) {
+      case "+":
+        storedValue += lastValue;
+        break;
+      case "-":
+        storedValue -= lastValue;
+        break;
+    }
+    console.log(lastValue, storedValue);
+    print(storedValue);
+    lastValue = 0;
+    valuesArray = [];
+  }
+  operatorPressed = true;
+  lastOperator = "-";
+});
+
 // Implement here the event when the = key is pressed
 document.querySelector(".keys .eval").addEventListener("click", () => {
   const stringValue = lastValue.join("");
