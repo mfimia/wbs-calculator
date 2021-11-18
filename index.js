@@ -50,64 +50,76 @@ document.querySelectorAll("#calculator span").forEach((key) => {
   }
 });
 
-document
-  .querySelector("#calculator .clear")
-  .addEventListener("click", () => (calculatorScreen.innerHTML = ""));
+document.querySelector("#calculator .clear").addEventListener("click", () => {
+  calculatorScreen.innerHTML = "";
+  storedValue = 0;
+  valuesArray = [];
+  lastValue = 0;
+});
 
-// Logic to operate the + operator and keep making operations if needed
+// Event listeners to identify if one of the operators was pressed
+// Listening for the "+" operator
 document.querySelector(".plus").addEventListener("click", () => {
-  if (!storedValue) {
-    storedValue = Number(valuesArray.join(""));
-    valuesArray = [];
-  } else {
-    calculatorScreen.innerHTML = "";
-    lastValue = Number(valuesArray.join(""));
-    switch (lastOperator) {
-      case "+":
-        storedValue += lastValue;
-        break;
-      case "-":
-        storedValue -= lastValue;
-        break;
-    }
-    console.log(lastValue, storedValue);
-    print(storedValue);
-    lastValue = 0;
-    valuesArray = [];
-  }
+  evaluateOperations();
   operatorPressed = true;
   lastOperator = "+";
 });
+
+// Listening for the "-" operator
 document.querySelector(".minus").addEventListener("click", () => {
-  console.log(lastOperator);
-  if (!storedValue) {
-    storedValue = Number(valuesArray.join(""));
-    valuesArray = [];
-  } else {
-    calculatorScreen.innerHTML = "";
-    lastValue = Number(valuesArray.join(""));
-    switch (lastOperator) {
-      case "+":
-        storedValue += lastValue;
-        break;
-      case "-":
-        storedValue -= lastValue;
-        break;
-    }
-    console.log(lastValue, storedValue);
-    print(storedValue);
-    lastValue = 0;
-    valuesArray = [];
-  }
+  evaluateOperations();
   operatorPressed = true;
   lastOperator = "-";
 });
 
-// Implement here the event when the = key is pressed
-document.querySelector(".keys .eval").addEventListener("click", () => {
-  const stringValue = lastValue.join("");
-  const numValue = Number(stringValue);
-  console.log(numValue);
-  console.log(stringValue);
-  lastValue = [];
+// Listening for the "x" operator
+document.querySelector(".times").addEventListener("click", () => {
+  evaluateOperations();
+  operatorPressed = true;
+  lastOperator = "*";
 });
+
+// Listening for the "/" operator
+document.querySelector(".divide").addEventListener("click", () => {
+  evaluateOperations();
+  operatorPressed = true;
+  lastOperator = "/";
+});
+
+// Listening for the "=" operator
+document.querySelector(".eval").addEventListener("click", () => {
+  if (storedValue) {
+    evaluateOperations();
+    lastValue = 0;
+    valuesArray = [];
+    operatorPressed = true;
+  }
+});
+
+// Function to evaluate operations and print value on screen
+const evaluateOperations = () => {
+  if (!storedValue) {
+    storedValue = Number(valuesArray.join(""));
+    valuesArray = [];
+  } else {
+    calculatorScreen.innerHTML = "";
+    lastValue = Number(valuesArray.join(""));
+    switch (lastOperator) {
+      case "+":
+        storedValue += lastValue;
+        break;
+      case "-":
+        storedValue -= lastValue;
+        break;
+      case "*":
+        storedValue *= lastValue;
+        break;
+      case "/":
+        storedValue /= lastValue;
+        break;
+    }
+    print(storedValue);
+    lastValue = 0;
+    valuesArray = [];
+  }
+};
