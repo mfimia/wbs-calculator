@@ -1,8 +1,8 @@
 // ----> Calculator <-----
 // Global utility variables
 const calculatorScreen = document.querySelector("#calculator .screen");
-let lastValue;
-let storedValue;
+let lastValue = null;
+let storedValue = null;
 let valuesArray = [];
 const operators = ["=", "+", "x", "/", "-"];
 let operatorPressed = false;
@@ -67,9 +67,11 @@ document.querySelector(".divide").addEventListener("click", () => {
 document.querySelector(".eval").addEventListener("click", () => {
   if (storedValue) {
     evaluateOperations();
-    lastValue = 0;
-    valuesArray = [];
     operatorPressed = true;
+    lastOperator = "=";
+    console.log(
+      `Stored value: ${storedValue}, Last value: ${lastValue}, valuesArray: ${valuesArray}`
+    );
   }
 });
 
@@ -95,9 +97,12 @@ const evaluateOperations = () => {
       case "/":
         storedValue /= lastValue;
         break;
+      case "=":
+        storedValue = storedValue;
+        break;
     }
     print(storedValue);
-    lastValue = 0;
+    // lastValue = null;
     valuesArray = [];
   }
 };
