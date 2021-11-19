@@ -69,9 +69,6 @@ document.querySelector(".eval").addEventListener("click", () => {
     evaluateOperations();
     operatorPressed = true;
     lastOperator = "=";
-    console.log(
-      `Stored value: ${storedValue}, Last value: ${lastValue}, valuesArray: ${valuesArray}`
-    );
   }
 });
 
@@ -102,7 +99,6 @@ const evaluateOperations = () => {
         break;
     }
     print(storedValue);
-    // lastValue = null;
     valuesArray = [];
   }
 };
